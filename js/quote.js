@@ -12,7 +12,9 @@ var quote = [
     "Học, học nữa, học mãi. [V.I. Lenin]",
     "Phía sau tôi không có lấy một người, sao tôi dám ngã xuống.",
     "Trường học có thể hô biến những người thắng và người bại, nhưng cuộc sống thì không. [Bill Gate]",
-    "Muốn xây dựng đất nước, trước hết phải phát triển giáo dục. Muốn trị nước, phải trọng dụng người tài. [Chiếu Lập Học]"
+    "Muốn xây dựng đất nước, trước hết phải phát triển giáo dục. Muốn trị nước, phải trọng dụng người tài. [Chiếu Lập Học]",
+    "Thời gian còn lại rất ngắn. Hãy cố gắng hết sức mình, để không phải hối tiếc.",
+    "Thời gian bắt đầu thi tốt nghiệp THPT Quốc Gia 2021 vào ngày 07/07/2021"
 ]
 
 function newQuote() {

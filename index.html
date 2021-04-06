@@ -49,9 +49,10 @@
 
 <body onload="newQuote();">
     <div>
-        <video muted autoplay loop id="myvideo">
+        <!-- <video muted autoplay loop id="myvideo">
       <source src="images/background.mp4" type="video/mp4">
-    </video>
+    </video> -->
+        <img src="images/background.png" id="images">
         <div class="content">
             <br>
             <h4 class="center">Đếm ngược ngày thi tốt nghiệp THPT 2021</h4>
@@ -63,8 +64,8 @@
                     </a>
                 </p>
 
-                <p class="center" style="font-size:20px" href="https://vtv.vn/giao-duc/du-kien-thi-tot-nghiep-thpt-nam-2021-vao-dau-thang-7-20210315002231933.html" style="color:white;cursor: pointer;">
-                    <i class="material-icons">alarm</i> Ngày thi: 07/07/2021 (Thông tin báo chí)</p>
+                <p class="center" style="font-size:20px" style="color:white;cursor: pointer;">
+                    <i class="material-icons">alarm</i> Ngày thi: 07/07/2021</p>
                 <p class="center inner" style="font-size:20px"> Thời gian còn lại:
                     <p id="demo" class="white-text center inner=">--d --h --m --s</p>
             </div>
@@ -91,10 +92,10 @@
 
                     if (distance < 0) {
                         clearInterval(x);
-                        document.getElementById("demo").innerHTML = "CHÚC MỌI NGƯỜI LÀM BÀI TỐT"; 
-                        
+                        document.getElementById("demo").innerHTML = "CHÚC MỌI NGƯỜI LÀM BÀI TỐT";
+
                     }
-                    }, 1000);
+                }, 1000);
             </script>
             <pre>
 
@@ -129,8 +130,8 @@
         <div class="popup" onclick="myFunction()"> ​​​​
             <i class="material-icons">info</i>
             <span class="popuptext" id="myPopup">
-                <i style="font-size:15px;" style="position: fixed;">Backgroud Video Source: <a
-                    onclick="window.open('https://www.youtube.com/watch?v=lRTtMcx6rSM')">MG1010 </a></i> <br>
+                <!-- <i style="font-size:15px;" style="position: fixed;">Backgroud Video Source: <a
+                    onclick="window.open('https://www.youtube.com/watch?v=lRTtMcx6rSM')">MG1010 </a></i> <br> -->
             <i>Trang web có sử dụng câu châm ngôn từ Internet</i>
             <br> <i> Báo lỗi/báo cáo vi phạm bản quyền (Feedback/copyright infringement): <a href="mailto:anhkhoatqt11@gmail.com">Trương Anh Khoa</a> </i>
        </span>
