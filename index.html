@@ -37,7 +37,7 @@
             popup.classList.toggle("show");
         }
     </script>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="demnguockithi/manifest.json">
     <link rel="apple-touch-icon" href="/images/apple.png">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9GWDFFRMRS"></script>
@@ -150,12 +150,11 @@
     <script>
         if (navigator.serviceWorker) {
           navigator.serviceWorker.register('/demnguockithi/sw.js', {scope: '/demnguockithi/'})
-          navigator.serviceWorker.register('/demnguockithi/js/app.js', {scope: '/demnguockithi/'})
-          navigator.serviceWorker.register('/demnguockithi/js/OneSignalSDKUpdaterWorker.js', {scope: '/demnguockithi/'})
-          navigator.serviceWorker.register('/demnguockithi/js/OneSignalSDKWorker.js', {scope: '/demnguockithi/'})
-          navigator.serviceWorker.register('/demnguockithi/manifest.json', {scope: '/demnguockithi/'})
+          navigator.serviceWorker.register('/demnguockithi/OneSignalSDKUpdaterWorker.js', {scope: '/demnguockithi/'})
+          navigator.serviceWorker.register('/demnguockithi/OneSignalSDKWorker.js', {scope: '/demnguockithi/'})
+          navigator.serviceWorker.register('/demnguockithi/OneSignalSDKWorker.js', {scope: '/demnguockithi/'})
+          navigator.serviceWorker.register('./demnguockithi/manifest.json', {scope: '/demnguockithi/'})
         }
-        
         // --- Application code here ---
         </script>
 </body>
