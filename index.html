@@ -150,6 +150,10 @@
     <script>
         if (navigator.serviceWorker) {
           navigator.serviceWorker.register('/demnguockithi/sw.js', {scope: '/demnguockithi/'})
+          navigator.serviceWorker.register('/demnguockithi/js/app.js', {scope: '/demnguockithi/'})
+          navigator.serviceWorker.register('/demnguockithi/js/OneSignalSDKUpdaterWorker.js', {scope: '/demnguockithi/'})
+          navigator.serviceWorker.register('/demnguockithi/js/OneSignalSDKWorker.js', {scope: '/demnguockithi/'})
+          navigator.serviceWorker.register('/demnguockithi/manifest.json', {scope: '/demnguockithi/'})
         }
         
         // --- Application code here ---
