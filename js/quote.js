@@ -14,7 +14,12 @@ var quote = [
     "Trường học có thể hô biến những người thắng và người bại, nhưng cuộc sống thì không. [Bill Gate]",
     "Muốn xây dựng đất nước, trước hết phải phát triển giáo dục. Muốn trị nước, phải trọng dụng người tài. [Chiếu Lập Học]",
     "Thời gian còn lại rất ngắn. Hãy cố gắng hết sức mình, để không phải hối tiếc.",
-    "Thời gian bắt đầu thi tốt nghiệp THPT Quốc Gia 2021 vào ngày 07/07/2021"
+    "Con đường do bản thân lựa chọn, dù có quỳ cũng phải đi cho hết.",
+    "Thái độ bây giờ của bạn sẽ quyết định mười năm sau bạn là một nhân vật tầm cỡ hay chỉ là một kẻ thất bại.",
+    "Nếu như không có vận may, thì hãy thử dùng dũng khí.",
+    "Để có thể thành công, bạn cần phải tin rằng mình có thể.",
+    "Cách tốt nhất để làm mọi thứ là ngừng nói và làm ngay bây giờ.",
+    "Bạn chỉ thất bại khi bạn ngừng cố gắng."
 ]
 
 function newQuote() {
