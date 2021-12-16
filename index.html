@@ -4,8 +4,8 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name="description"
-        content="Trang web đếm ngược ngày thi tốt nghiệp THPT đến ngày 07/07/2022 dành cho học sinh THPT">
+    <meta name="description" content="Trang web đếm ngược ngày thi tốt nghiệp THPT đến ngày 07/07/2022 dành cho học sinh THPT">
+    <link rel="canonical" href="https://anhkhoatqt11.github.io/demnguockithi/" />
     <meta name="theme-color" content="#483D8B">
     <title>Đếm ngược ngày thi tốt nghiệp THPT 2022</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -147,16 +147,23 @@
             <i class="fa fa-facebook" style="font-size:20px; position: absolute;top:3px;color:white"></i>
         </a>
     </div>
+    <script>
+        if (navigator.serviceWorker) {
+          navigator.serviceWorker.register('/demnguockithi/sw.js', {scope: '/demnguockithi/'})
+        }
+        
+        // --- Application code here ---
+        </script>
 </body>
 <script src="/js/app.js"></script>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(function () {
-        OneSignal.init({
-            appId: "2ce708ee-b01f-400d-9936-5f887626493d",
-        });
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: "2ce708ee-b01f-400d-9936-5f887626493d",
     });
+  });
 </script>
 
 </html>
