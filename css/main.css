@@ -8,15 +8,12 @@ html {
 .bgimg-3 {
     position: relative;
     opacity: 0.65;
-    background-position: center;
+    background-position: center center;
+    background-attachment: fixed;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover;        
 }
 
-body {
-    background-image: url("background.png");
-    height: 100%;
-}
 
 #myvideo {
     position: fixed;
@@ -100,7 +97,24 @@ body {
     animation: fadeIn 1s
 }
 
+.datetime {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+}
 
+.object {
+    width: 90px;
+    height: 130px;
+    background: rgba(0, 0, 0, 0.3);
+}
+.object-description{
+    font-size: 15px;
+    font-weight: bolder;
+    background: rgba(0, 0, 0, 0.5);
+}
 /* Add animation (fade in the popup) */
 
 @-webkit-keyframes fadeIn {

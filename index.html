@@ -48,6 +48,7 @@
 
         gtag('config', 'G-9GWDFFRMRS');
     </script>
+
 </head>
 
 <body onload="newQuote();">
@@ -55,11 +56,12 @@
         <!-- <video muted autoplay loop id="myvideo">
       <source src="images/background.mp4" type="video/mp4">
     </video> -->
-        <img src="images/background.png" id="images">
+        <img  id="images">
         <div class="content">
+            <h5 style="margin-left: 10px;font-weight: bold;">Đếm ngược ngày thi tốt nghiệp THPT 2022</h5>
+            <span style="font-style: italic;margin-left: 10px;">Trang web đếm ngược ngày thi tốt nghiệp THPT 2022</span>
             <br>
-            <h4 class="center">Đếm ngược ngày thi tốt nghiệp THPT 2022</h4>
-            <p class="center" style="font-style: italic;">Trang web đếm ngược ngày thi tốt nghiệp THPT 2022</p>
+            <br>
             <div style="font-size: 30px" class="wrapper">
                 <p class="center-align">
                     <i class="material-icons" style="text-align: center">article</i>
@@ -69,10 +71,28 @@
                 </p>
 
                 <p class="center" style="font-size:20px" style="color:white;cursor: pointer;">
-                    <i class="material-icons">alarm</i> Ngày thi: 07/07/2022 (Dự kiến)
+                    <span class="material-icons">alarm</span> Ngày thi: 07/07/2022 (Dự kiến)
                 </p>
-                <p class="center inner" style="font-size:20px"> Thời gian còn lại:
-                <p id="demo" class="white-text center inner=">--d --h --m --s</p>
+                <p class="center inner" style="font-size:20px"> Thời gian còn lại
+                <!-- <p id="demo" class="white-text center inner=">--d --h --m --s</p> -->
+                <div class="datetime center">
+                    <div class="object">
+                        <p id="days">--</p>
+                        <p class="object-description">NGÀY</p>
+                    </div>
+                    <div class="object">
+                        <p id="hours">--</p>
+                        <p class="object-description">GIỜ</p>
+                    </div>
+                    <div class="object">
+                        <p id="minutes">--</p>
+                        <p class="object-description">PHÚT</p>
+                    </div>
+                    <div class="object">
+                        <p id="seconds">--</p>
+                        <p class="object-description">GIÂY</p>
+                    </div>
+                </div>
             </div>
             <script>
                 var countDownDate = new Date("Jul 07, 2022 00:00:00").getTime();
@@ -92,9 +112,13 @@
                     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                    document.getElementById("demo").innerHTML = days + "d " + hours + "h " +
-                        minutes + "m " + seconds + "s ";
+                    // document.getElementById("demo").innerHTML = days + "d " + hours + "h " +
+                    //     minutes + "m " + seconds + "s ";
 
+                    document.getElementById("days").innerHTML= days;
+                    document.getElementById("hours").innerHTML = hours;
+                    document.getElementById("minutes").innerHTML = minutes;
+                    document.getElementById("seconds").innerHTML = seconds;
                     if (distance < 0) {
                         clearInterval(x);
                         document.getElementById("demo").innerHTML = "Chúc các bạn vượt vũ môn thành công!!!";
@@ -139,10 +163,11 @@
                     onclick="window.open('https://www.youtube.com/watch?v=lRTtMcx6rSM')">MG1010 </a></i> <br> -->
                 <i>Trang web có sử dụng câu châm ngôn từ Internet</i>
                 <br> <i> Báo lỗi/báo cáo vi phạm bản quyền (Feedback/copyright infringement): <a
-                        href="mailto:anhkhoatqt11@gmail.com">Trương Anh Khoa</a> </i>
+                        href="mailto:anhkhoatqt11@gmail.com">Trương Anh Khoa</a> </i> <br>
+                        <i>Trang web có sử dụng hình ảnh của các tác giả: denamorado, <a href="https://www.freepik.com/vectors/background">freepik.</a></a></i>
             </span>
         </div>
-        <a href="https://www.facebook.com/LINE-%C4%90%E1%BA%BFm-ng%C6%B0%E1%BB%A3c-ng%C3%A0y-thi-112516863879555"
+        <a style="margin-left:5px;" href="https://www.facebook.com/LINE-%C4%90%E1%BA%BFm-ng%C6%B0%E1%BB%A3c-ng%C3%A0y-thi-112516863879555"
             aria-label="Facebook">
             <i class="fa fa-facebook" style="font-size:20px; position: absolute;top:3px;color:white"></i>
         </a>
@@ -158,7 +183,12 @@
         // --- Application code here ---
         </script>
 </body>
-<script src="/js/app.js"></script>
+<script type="text/javascript"> 
+    var totalCount = 4;
+    var num = Math.ceil( Math.random() * totalCount );
+    document.getElementById("images").src = 'images/' + "background"+num+'.png';
+</script>
+<script src="./js/app.js"></script>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
   window.OneSignal = window.OneSignal || [];

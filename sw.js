@@ -1,4 +1,4 @@
-const staticCacheName = 'site-static-v14';
+const staticCacheName = 'site-static-v15';
 const assets = [
     '/',
     '/index.html',
@@ -11,7 +11,10 @@ const assets = [
     "/manifest.json",
     'images/favicon.png',
     'css/main.css',
-    'images/background.png'
+    'images/background1.png',
+    'images/background2.png',
+    'images/background3.png',
+    'images/background4.png',
 ];
 
 self.addEventListener('install', evt => {
