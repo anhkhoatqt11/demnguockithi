@@ -1,20 +1,20 @@
 const staticCacheName = 'site-static-v15';
 const assets = [
-    '/',
-    '/index.html',
-    '/js/app.js',
-    'js/quote.js',
+    '/demnguockithi/',
+    '/demnguockithi/index.html',
+    '/demnguockithi/js/app.js',
+    '/demnguockithi/js/quote.js',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
     'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css',
     'https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
-    'images/background.mp4',
-    "/manifest.json",
-    'images/favicon.png',
-    'css/main.css',
-    'images/background1.png',
-    'images/background2.png',
-    'images/background3.png',
-    'images/background4.png',
+    '/demnguockithi/images/background.mp4',
+    "/demnguockithi/manifest.json",
+    '/demnguockithi/images/favicon.png',
+    '/demnguockithi/css/main.css',
+    '/demnguockithi/images/background1.png',
+    '/demnguockithi/images/background2.png',
+    '/demnguockithi/images/background3.png',
+    '/demnguockithi/images/background4.png',
 ];
 
 self.addEventListener('install', evt => {
