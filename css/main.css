@@ -8,10 +8,6 @@ html {
 .bgimg-3 {
     position: relative;
     opacity: 0.65;
-    background-position: center center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;        
 }
 
 
@@ -31,6 +27,11 @@ html {
     min-width: 100%;
     min-height: 100%;
     z-index: -100;
+    background-repeat: no-repeat;
+    background-size: cover;      
+    background-position: center center;
+    background-attachment: fixed;
+    position: fixed;
 }
 
 .content {
@@ -46,7 +47,6 @@ html {
     margin: 20px auto;
     border-style: groove;
     border-radius: 25px;
-    ;
     border-color: white;
     border-spacing: 10px;
     position: relative;
