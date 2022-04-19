@@ -31,7 +31,7 @@ html {
     background-size: cover;      
     background-position: center center;
     background-attachment: fixed;
-    position: fixed;
+
 }
 
 .content {
@@ -73,8 +73,8 @@ html {
 .popup .popuptext {
     visibility: hidden;
     width: 300px;
-    background-color: #555;
-    color: #fff;
+    background-color: #fff;
+    color: black;
     text-align: center;
     border-radius: 6px;
     padding: 8px 0;

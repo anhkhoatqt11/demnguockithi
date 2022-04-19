@@ -5,7 +5,6 @@ var quote = [
     "Nghị lực và bền bỉ có thể giúp bạn chinh phục mọi thứ",
     "Cuộc đời sẽ tươi đẹp hơn rất nhiều nếu ta có những tình bạn đúng nghĩa, luôn hết mình vì người khác.",
     "Một chữ cũng là thầy, nửa chữ cũng là thầy [Tục ngữ Việt Nam]",
-    "Vấp ngã không phải là thất bại, chỉ là dừng lại cho đỡ mỏi chân thôi!",
     "Giáo dục là làm cho con người tìm thấy chính mình . [Socrates]",
     "Ước mơ không có ngày hết hạn, hãy hít thở sâu và cố gắng thêm lần nữa.",
     "Cuộc sống rất ngắn. Đừng lẵng phí nó bởi những nỗi buồn. Hãy là chính mình, luôn vui vẻ, tự do, và trở thành bất cứ gì bạn muốn.",
@@ -19,7 +18,8 @@ var quote = [
     "Nếu như không có vận may, thì hãy thử dùng dũng khí.",
     "Để có thể thành công, bạn cần phải tin rằng mình có thể.",
     "Cách tốt nhất để làm mọi thứ là ngừng nói và làm ngay bây giờ.",
-    "Bạn chỉ thất bại khi bạn ngừng cố gắng."
+    "Bạn chỉ thất bại khi bạn ngừng cố gắng.",
+    "Học tập là vũ khí mạnh nhất nó có thể thay đổi cả cuộc đời bạn."
 ]
 
 function newQuote() {
