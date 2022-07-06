@@ -4,7 +4,8 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name="description" content="Trang web đếm ngược ngày thi tốt nghiệp THPT đến ngày 07/07/2022 dành cho học sinh THPT">
+    <meta name="description"
+        content="Trang web đếm ngược ngày thi tốt nghiệp THPT đến ngày 07/07/2022 dành cho học sinh THPT">
     <link rel="canonical" href="https://anhkhoatqt11.github.io/demnguockithi/" />
     <meta name="theme-color" content="#483D8B">
     <title>Đếm ngược ngày thi tốt nghiệp THPT 2022</title>
@@ -70,7 +71,8 @@
 
                 <p class="center" style="font-size:20px" style="color:white;cursor: pointer;">
                     <span class="material-icons">alarm</span> Ngày thi: 07/07/2022
-                    <a style="color:white" target="_blank" href="https://www.facebook.com/thongtinbogiaoducvadaotao/posts/356276196545719">(Chính thức)</a>
+                    <a style="color:white" target="_blank"
+                        href="https://www.facebook.com/thongtinbogiaoducvadaotao/posts/356276196545719">(Chính thức)</a>
                 </p>
                 <p class="center inner" style="font-size:20px;font-weight: bold;"> Thời gian còn lại
                 <div class="datetime center">
@@ -113,14 +115,18 @@
                     // document.getElementById("demo").innerHTML = days + "d " + hours + "h " +
                     //     minutes + "m " + seconds + "s ";
 
-                    document.getElementById("days").innerHTML= days;
+                    document.getElementById("days").innerHTML = days;
                     document.getElementById("hours").innerHTML = hours;
                     document.getElementById("minutes").innerHTML = minutes;
                     document.getElementById("seconds").innerHTML = seconds;
                     if (distance < 0) {
-                        clearInterval(x);
-                        document.getElementById("demo").innerHTML = "Chúc các bạn vượt vũ môn thành công!!!";
 
+                        clearInterval(x);
+
+                        document.getElementById("days").innerHTML = 0;
+                        document.getElementById("hours").innerHTML = 0;
+                        document.getElementById("minutes").innerHTML = 0;
+                        document.getElementById("seconds").innerHTML = 0;
                     }
                 }, 1000);
             </script>
@@ -250,7 +256,7 @@
 
 
 
-                
+
 
 
 
@@ -262,40 +268,42 @@
             <i class="material-icons">info</i>
             <span class="popuptext" id="myPopup">
                 <i>Trang web có sử dụng câu châm ngôn từ nhiều nguồn</i>
-                 <br>
-                        <i>Trang web có sử dụng hình ảnh của các tác giả/nền tảng: denamorado, <a href="https://www.freepik.com/vectors/background">freepik.</a></a></i>
+                <br>
+                <i>Trang web có sử dụng hình ảnh của các tác giả/nền tảng: denamorado, <a
+                        href="https://www.freepik.com/vectors/background">freepik.</a></a></i>
             </span>
         </div>
-        <a style="margin-left:5px;" href="https://www.facebook.com/LINE-%C4%90%E1%BA%BFm-ng%C6%B0%E1%BB%A3c-ng%C3%A0y-thi-112516863879555"
+        <a style="margin-left:5px;"
+            href="https://www.facebook.com/LINE-%C4%90%E1%BA%BFm-ng%C6%B0%E1%BB%A3c-ng%C3%A0y-thi-112516863879555"
             aria-label="Facebook">
             <i class="fa fa-facebook" style="font-size:20px; position: absolute;top:3px;color:white"></i>
         </a>
     </div>
     <script>
         if (navigator.serviceWorker) {
-          navigator.serviceWorker.register('/demnguockithi/sw.js', {scope: '/demnguockithi/'})
-          navigator.serviceWorker.register('/demnguockithi/OneSignalSDKUpdaterWorker.js', {scope: '/demnguockithi/'})
-          navigator.serviceWorker.register('/demnguockithi/OneSignalSDKWorker.js', {scope: '/demnguockithi/'})
-          navigator.serviceWorker.register('/demnguockithi/OneSignalSDKWorker.js', {scope: '/demnguockithi/'})
-          navigator.serviceWorker.register('/demnguockithi/manifest.json', {scope: '/demnguockithi/'})
+            navigator.serviceWorker.register('/demnguockithi/sw.js', { scope: '/demnguockithi/' })
+            navigator.serviceWorker.register('/demnguockithi/OneSignalSDKUpdaterWorker.js', { scope: '/demnguockithi/' })
+            navigator.serviceWorker.register('/demnguockithi/OneSignalSDKWorker.js', { scope: '/demnguockithi/' })
+            navigator.serviceWorker.register('/demnguockithi/OneSignalSDKWorker.js', { scope: '/demnguockithi/' })
+            navigator.serviceWorker.register('/demnguockithi/manifest.json', { scope: '/demnguockithi/' })
         }
         // --- Application code here ---
-        </script>
+    </script>
 </body>
-<script type="text/javascript"> 
+<script type="text/javascript">
     var totalCount = 4;
-    var num = Math.ceil( Math.random() * totalCount );
-    document.getElementById("images").src = 'images/' + "background"+num+'.png';
+    var num = Math.ceil(Math.random() * totalCount);
+    document.getElementById("images").src = 'images/' + "background" + num + '.png';
 </script>
 <script src="./js/app.js"></script>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
-  window.OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
-      appId: "2ce708ee-b01f-400d-9936-5f887626493d",
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+        OneSignal.init({
+            appId: "2ce708ee-b01f-400d-9936-5f887626493d",
+        });
     });
-  });
 </script>
 
 </html>
