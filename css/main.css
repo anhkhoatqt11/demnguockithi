@@ -3,6 +3,16 @@ html {
     height: 100%;
 }
 
+@font-face {
+    font-family: AvertaRegular;
+    src: url("../fonts/Averta-Regular.otf");
+  }
+
+  @font-face {
+    font-family: AvertaBold;
+    src: url("../fonts/Averta-Bold.otf");
+  }
+
 .bgimg-1,
 .bgimg-2,
 .bgimg-3 {
@@ -39,6 +49,7 @@ html {
     background: rgba(0, 0, 0, 0.5);
     color: #f1f1f1;
     width: 100%;
+    font-family: AvertaRegular;
 }
 
 #demo {
@@ -56,6 +67,7 @@ html {
     position: absolute;
     bottom: 0;
     left: 0;
+    font-family: AvertaRegular;    
 }
 
 
@@ -103,6 +115,7 @@ html {
     align-items: center;
     text-align: center;
     gap: 12px;
+    font-family: AvertaBold;
 }
 
 .object {
@@ -111,7 +124,7 @@ html {
     background: rgba(0, 0, 0, 0.3);
 }
 .object-description{
-    font-size: 15px;
+    font-size: 16px;
     font-weight: bolder;
     background: rgba(0, 0, 0, 0.5);
 }
