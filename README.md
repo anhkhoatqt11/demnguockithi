@@ -1,6 +1,6 @@
 # Exam Countdown Timer
 
-A modern countdown timer application built with Next.js for tracing time until important exams, specifically designed for Vietnamese high school graduation exams.
+A modern countdown timer application built with Next.js for tracing time until important exams, specifically designed for Vietnamese high school graduation exams (Vietnam National Exam).
 
 ## 🚀 Features
 
