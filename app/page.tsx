@@ -317,7 +317,7 @@ export default function THPT2025Countdown() {
           {/* Motivational Quote */}
           <div className="mb-8">
             <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
-              <CardContent className="p-6">
+              <CardContent>
                 <Quote className="h-8 w-8 mx-auto mb-4 text-white/80" />
                 <blockquote className="text-xl md:text-2xl font-medium italic mb-3">
                   "{motivationalQuotes[currentQuote].quote}"
@@ -331,7 +331,7 @@ export default function THPT2025Countdown() {
           {/* Exam Date */}
           <div className="mb-6">
             <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white max-w-full mx-auto">
-              <CardContent className="p-6">
+              <CardContent>
                 <div className="flex items-center justify-center gap-3 mb-2">
                   <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
                     <Clock className="h-5 w-5 text-white" />
@@ -375,24 +375,24 @@ export default function THPT2025Countdown() {
           </div>
 
           {/* Motivational Badges */}
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            <Badge className="bg-emerald-500/20 text-emerald-100 border-emerald-400/30 px-4 py-2">
-              <Zap className="h-4 w-4 mr-2" />
-              Cố gắng lên!
-            </Badge>
-            <Badge className="bg-blue-500/20 text-blue-100 border-blue-400/30 px-4 py-2">
-              <Users className="h-4 w-4 mr-2" />
-              Cùng nhau chiến thắng
-            </Badge>
-            <Badge className="bg-purple-500/20 text-purple-100 border-purple-400/30 px-4 py-2">
-              <Target className="h-4 w-4 mr-2" />
-              Mục tiêu rõ ràng
-            </Badge>
-            {/* <Badge className="bg-yellow-500/20 text-yellow-100 border-yellow-400/30 px-4 py-2">
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <Badge className="bg-emerald-500/20 text-emerald-100 border-emerald-400/30 px-4 py-2 hover:bg-emerald-500/30 transition-colors">
               <Star className="h-4 w-4 mr-2" />
-              Streak {studyStreak} ngày
-            </Badge> */}
-          </div>
+              Nỗ lực mỗi ngày
+            </Badge>
+            <Badge className="bg-blue-500/20 text-blue-100 border-blue-400/30 px-4 py-2 hover:bg-blue-500/30 transition-colors">
+              <Users className="h-4 w-4 mr-2" />
+              Đồng hành cùng nhau
+            </Badge>
+            <Badge className="bg-purple-500/20 text-purple-100 border-purple-400/30 px-4 py-2 hover:bg-purple-500/30 transition-colors">
+              <Target className="h-4 w-4 mr-2" />
+              Hướng tới thành công
+            </Badge>
+            <Badge className="bg-orange-500/20 text-orange-100 border-orange-400/30 px-4 py-2 hover:bg-orange-500/30 transition-colors">
+              <Zap className="h-4 w-4 mr-2" />
+              Tin tưởng bản thân
+            </Badge>
+            </div>
         </section>
 
         {/* News Section - Now using the extracted component */}
