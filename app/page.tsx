@@ -61,6 +61,24 @@ const examSchedule = [
   {
     date: "27/6/2025",
     session: "Sáng",
+    subject: "Bài thi Tự chọn môn thứ nhất",
+    time: "07:30",
+    duration: "50 phút",
+    datetime: new Date("2025-06-27T07:30:00"),
+    icon: "1️⃣"
+  },
+  {
+    date: "27/6/2025",
+    session: "Sáng",
+    subject: "Bài thi Tự chọn môn thứ hai",
+    time: "08:35",
+    duration: "50 phút",
+    datetime: new Date("2025-06-27T08:30:00"),
+    icon: "2️⃣"
+  },
+  {
+    date: "27/6/2025",
+    session: "Sáng",
     subject: "Vật lí",
     time: "07:30",
     duration: "50 phút",
@@ -246,11 +264,11 @@ export default function THPT2025Countdown() {
     const timer = setInterval(() => {
       const now = new Date().getTime()
       const nextExam = getNextExam()
-      
+
       if (nextExam) {
         setCurrentExam(nextExam)
         const distance = nextExam.datetime.getTime() - now
-        
+
         if (distance > 0) {
           setTimeLeft({
             days: Math.floor(distance / (1000 * 60 * 60 * 24)),
@@ -527,13 +545,12 @@ export default function THPT2025Countdown() {
               <CardContent>
                 <div className="grid gap-3">
                   {examSchedule.map((exam, index) => (
-                    <div 
-                      key={index} 
-                      className={`p-3 rounded-lg border transition-all duration-300 ${
-                        currentExam?.subject === exam.subject
-                          ? 'bg-blue-500/20 border-blue-400/50 ring-2 ring-blue-400/30' 
+                    <div
+                      key={index}
+                      className={`p-3 rounded-lg border transition-all duration-300 ${currentExam?.subject === exam.subject
+                          ? 'bg-blue-500/20 border-blue-400/50 ring-2 ring-blue-400/30'
                           : 'bg-white/5 border-white/20 hover:bg-white/10'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
