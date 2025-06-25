@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Moon, Sun, Calendar, Clock, Users, Quote, Share2, Heart, Star, Target, Zap, GithubIcon } from "lucide-react"
+import { Moon, Sun, Calendar, Clock, Users, Quote, Share2, Heart, Star, Target, Zap, GithubIcon, BookOpen } from "lucide-react"
 import { useTheme } from "next-themes"
 import { NewsSection, type NewsArticle } from "@/components/new-section"
 import { ThemeDialog, type ThemeOption, type BackgroundSettings } from "@/components/theme-dialog"
@@ -36,6 +36,91 @@ const motivationalQuotes = [
     author: "Benjamin Franklin",
     translation: "An investment in knowledge pays the best interest",
   },
+]
+
+// Exam schedule with individual timestamps
+const examSchedule = [
+  {
+    date: "26/6/2025",
+    session: "Sáng",
+    subject: "Ngữ văn",
+    time: "07:30",
+    duration: "120 phút",
+    datetime: new Date("2025-06-26T07:30:00"),
+    icon: "📝"
+  },
+  {
+    date: "26/6/2025",
+    session: "Chiều",
+    subject: "Toán",
+    time: "14:20",
+    duration: "90 phút",
+    datetime: new Date("2025-06-26T14:20:00"),
+    icon: "🔢"
+  },
+  {
+    date: "27/6/2025",
+    session: "Sáng",
+    subject: "Vật lí",
+    time: "07:30",
+    duration: "50 phút",
+    datetime: new Date("2025-06-27T07:30:00"),
+    icon: "⚛️"
+  },
+  {
+    date: "27/6/2025",
+    session: "Sáng",
+    subject: "Hóa học",
+    time: "08:30",
+    duration: "50 phút",
+    datetime: new Date("2025-06-27T08:30:00"),
+    icon: "🧪"
+  },
+  {
+    date: "27/6/2025",
+    session: "Sáng",
+    subject: "Sinh học",
+    time: "09:30",
+    duration: "50 phút",
+    datetime: new Date("2025-06-27T09:30:00"),
+    icon: "🧬"
+  },
+  {
+    date: "27/6/2025",
+    session: "Sáng",
+    subject: "Lịch sử",
+    time: "07:30",
+    duration: "50 phút",
+    datetime: new Date("2025-06-27T07:30:00"),
+    icon: "📚"
+  },
+  {
+    date: "27/6/2025",
+    session: "Sáng",
+    subject: "Địa lí",
+    time: "08:30",
+    duration: "50 phút",
+    datetime: new Date("2025-06-27T08:30:00"),
+    icon: "🌍"
+  },
+  {
+    date: "27/6/2025",
+    session: "Sáng",
+    subject: "Giáo dục công dân",
+    time: "09:30",
+    duration: "50 phút",
+    datetime: new Date("2025-06-27T09:30:00"),
+    icon: "⚖️"
+  },
+  {
+    date: "28/6/2025",
+    session: "Chiều",
+    subject: "Ngoại ngữ",
+    time: "14:20",
+    duration: "60 phút",
+    datetime: new Date("2025-06-28T14:20:00"),
+    icon: "🌐"
+  }
 ]
 
 const newsArticles: NewsArticle[] = [
@@ -107,6 +192,7 @@ export default function THPT2025Countdown() {
     minutes: 0,
     seconds: 0,
   })
+  const [currentExam, setCurrentExam] = useState<typeof examSchedule[0] | null>(null)
   const [currentQuote, setCurrentQuote] = useState(0)
   const [currentTheme, setCurrentTheme] = useState("elegant-green")
   const [customBackground, setCustomBackground] = useState("")
@@ -120,8 +206,16 @@ export default function THPT2025Countdown() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
-  // THPT exam date: June 26, 2025
-  const examDate = new Date("2025-06-26T07:30:00")
+  // Function to get the next upcoming exam
+  const getNextExam = () => {
+    const now = new Date().getTime()
+    for (const exam of examSchedule) {
+      if (exam.datetime.getTime() > now) {
+        return exam
+      }
+    }
+    return null // All exams have passed
+  }
 
   useEffect(() => {
     setMounted(true)
@@ -151,15 +245,26 @@ export default function THPT2025Countdown() {
 
     const timer = setInterval(() => {
       const now = new Date().getTime()
-      const distance = examDate.getTime() - now
-
-      if (distance > 0) {
-        setTimeLeft({
-          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000),
-        })
+      const nextExam = getNextExam()
+      
+      if (nextExam) {
+        setCurrentExam(nextExam)
+        const distance = nextExam.datetime.getTime() - now
+        
+        if (distance > 0) {
+          setTimeLeft({
+            days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+            hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+            seconds: Math.floor((distance % (1000 * 60)) / 1000),
+          })
+        } else {
+          setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+        }
+      } else {
+        // All exams have passed
+        setCurrentExam(null)
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
       }
     }, 1000)
 
@@ -183,9 +288,7 @@ export default function THPT2025Countdown() {
       position: "center",
       repeat: "no-repeat"
     })
-    // Save theme to localStorage
     localStorage.setItem('thpt-countdown-theme', themeId)
-    // Clear custom background from localStorage when switching to theme
     localStorage.removeItem('thpt-countdown-background')
     localStorage.removeItem('thpt-countdown-background-settings')
   }
@@ -195,9 +298,7 @@ export default function THPT2025Countdown() {
     if (settings) {
       setBackgroundSettings(settings)
     }
-    // Save custom background to localStorage
     localStorage.setItem('thpt-countdown-background', imageUrl)
-    // Clear theme selection since we're using custom background
     localStorage.removeItem('thpt-countdown-theme')
   }
 
@@ -217,9 +318,11 @@ export default function THPT2025Countdown() {
 
   const shareCountdown = () => {
     if (navigator.share) {
+      const year = currentExam ? currentExam.datetime.getFullYear() : 2025
+      const subject = currentExam ? currentExam.subject : "các môn thi"
       navigator.share({
-        title: `Đếm ngược thi THPT ${examDate.getFullYear()}`,
-        text: `Còn ${timeLeft.days} ngày nữa là đến kỳ thi THPT ${examDate.getFullYear()}! Cùng nhau cố gắng nhé! 💪`,
+        title: `Đếm ngược thi THPT ${year}`,
+        text: `Còn ${timeLeft.days} ngày nữa là đến kỳ thi ${subject}! Cùng nhau cố gắng nhé! 💪`,
         url: window.location.href,
       })
     }
@@ -245,6 +348,16 @@ export default function THPT2025Countdown() {
     }
   }
 
+  const formatCountdown = (countdown: { days: number, hours: number, minutes: number, seconds: number }) => {
+    if (countdown.days > 0) {
+      return `${countdown.days}d ${countdown.hours}h ${countdown.minutes}m`
+    } else if (countdown.hours > 0) {
+      return `${countdown.hours}h ${countdown.minutes}m ${countdown.seconds}s`
+    } else {
+      return `${countdown.minutes}m ${countdown.seconds}s`
+    }
+  }
+
   if (!mounted) {
     return null
   }
@@ -262,7 +375,6 @@ export default function THPT2025Countdown() {
           <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-white/5 rounded-full blur-2xl animate-pulse delay-1000"></div>
           <div className="absolute bottom-40 right-1/3 w-28 h-28 bg-white/10 rounded-full blur-xl animate-bounce delay-500"></div>
 
-          {/* Geometric shapes inspired by the original design */}
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 800">
             <circle cx="100" cy="500" r="150" fill="rgba(255,255,255,0.05)" />
             <circle cx="1100" cy="200" r="80" fill="rgba(255,255,255,0.08)" />
@@ -285,8 +397,8 @@ export default function THPT2025Countdown() {
               <Calendar className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">Đếm Ngược Ngày Thi Tốt Nghiệp THPT {examDate.getFullYear()}</h1>
-              <p className="text-white/70 text-sm">Trang web đếm ngược ngày thi tốt nghiệp THPT {examDate.getFullYear()}</p>
+              <h1 className="text-xl font-bold text-white">Đếm Ngược Ngày Thi Tốt Nghiệp THPT 2025</h1>
+              <p className="text-white/70 text-sm">Trang web đếm ngược ngày thi tốt nghiệp THPT 2025</p>
             </div>
           </div>
           <div className="flex items-center space-x-2">
@@ -311,101 +423,161 @@ export default function THPT2025Countdown() {
         </div>
       </header>
 
-      <main className="relative z-10 container mx-auto px-4 py-3 space-y-8">
-        {/* Main Countdown Section */}
-        <section className="text-center">
-          {/* Motivational Quote */}
-          <div className="mb-8">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
-              <CardContent>
-                <Quote className="h-8 w-8 mx-auto mb-4 text-white/80" />
-                <blockquote className="text-xl md:text-2xl font-medium italic mb-3">
-                  "{motivationalQuotes[currentQuote].quote}"
-                </blockquote>
-                <cite className="text-white/80 text-lg">— {motivationalQuotes[currentQuote].author}</cite>
-                <p className="text-white/60 text-sm mt-2 italic">{motivationalQuotes[currentQuote].translation}</p>
-              </CardContent>
-            </Card>
-          </div>
+      <main className="relative z-10 container mx-auto px-4 py-3 space-y-8 max-w-7xl">
+        {/* Main Content - Two Column Layout */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Main Countdown Section */}
+          <div className="lg:col-span-2 text-center space-y-8">
+            {/* Motivational Quote */}
+            <div>
+              <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto">
+                <CardContent>
+                  <Quote className="h-8 w-8 mx-auto mb-4 text-white/80" />
+                  <blockquote className="text-xl md:text-2xl font-medium italic mb-3">
+                    "{motivationalQuotes[currentQuote].quote}"
+                  </blockquote>
+                  <cite className="text-white/80 text-lg">— {motivationalQuotes[currentQuote].author}</cite>
+                  <p className="text-white/60 text-sm mt-2 italic">{motivationalQuotes[currentQuote].translation}</p>
+                </CardContent>
+              </Card>
+            </div>
 
-          {/* Exam Date */}
-          <div className="mb-6">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white max-w-full mx-auto">
-              <CardContent>
-                <div className="flex items-center justify-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                    <Clock className="h-5 w-5 text-white" />
+            {/* Exam Date */}
+            <div>
+              <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto">
+                <CardContent>
+                  <div className="flex items-center justify-center gap-3 mb-2">
+                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                      <Clock className="h-5 w-5 text-white" />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-white/80 text-sm font-medium uppercase tracking-wider">
+                        {currentExam ? `Môn thi tiếp theo: ${currentExam.subject}` : "Ngày thi chính thức"}
+                      </p>
+                      <p className="text-white text-xl font-bold">
+                        {currentExam ? currentExam.date : "26/6/2025"}
+                      </p>
+                    </div>
                   </div>
                   <div className="text-center">
-                    <p className="text-white/80 text-sm font-medium uppercase tracking-wider">Ngày thi chính thức</p>
-                    <p className="text-white text-xl font-bold">{examDate.toLocaleDateString('vi-VN')}</p>
+                    <Badge className="bg-emerald-500/20 text-emerald-100 border-emerald-400/30 px-3 py-1">
+                      <Calendar className="h-3 w-3 mr-1" />
+                      {currentExam ? currentExam.time : "07:30"}
+                    </Badge>
                   </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Main Countdown Timer */}
+            <div>
+              <h2 className="text-white/90 text-xl mb-6 font-medium">
+                {currentExam ? `Thời gian còn lại đến môn thi ${currentExam.subject}` : "Thời gian còn lại đến kỳ thi"}
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
+                <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 lg:p-6 xl:p-8 border border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105">
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">{timeLeft.days}</div>
+                  <div className="text-white/80 uppercase tracking-wider text-xs lg:text-sm font-medium">NGÀY</div>
                 </div>
-                <div className="text-center">
-                  <Badge className="bg-emerald-500/20 text-emerald-100 border-emerald-400/30 px-3 py-1">
-                    <Calendar className="h-3 w-3 mr-1" />
-                    {examDate.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
-                  </Badge>
+                <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 lg:p-6 xl:p-8 border border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105">
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">{timeLeft.hours}</div>
+                  <div className="text-white/80 uppercase tracking-wider text-xs lg:text-sm font-medium">GIỜ</div>
+                </div>
+                <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 lg:p-6 xl:p-8 border border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105">
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">{timeLeft.minutes}</div>
+                  <div className="text-white/80 uppercase tracking-wider text-xs lg:text-sm font-medium">PHÚT</div>
+                </div>
+                <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 lg:p-6 xl:p-8 border border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105">
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">{timeLeft.seconds}</div>
+                  <div className="text-white/80 uppercase tracking-wider text-xs lg:text-sm font-medium">GIÂY</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Motivational Badges */}
+            <div className="flex flex-wrap justify-center gap-3">
+              <Badge className="bg-emerald-500/20 text-emerald-100 border-emerald-400/30 px-4 py-2 hover:bg-emerald-500/30 transition-colors">
+                <Star className="h-4 w-4 mr-2" />
+                Nỗ lực mỗi ngày
+              </Badge>
+              <Badge className="bg-blue-500/20 text-blue-100 border-blue-400/30 px-4 py-2 hover:bg-blue-500/30 transition-colors">
+                <Users className="h-4 w-4 mr-2" />
+                Đồng hành cùng nhau
+              </Badge>
+              <Badge className="bg-purple-500/20 text-purple-100 border-purple-400/30 px-4 py-2 hover:bg-purple-500/30 transition-colors">
+                <Target className="h-4 w-4 mr-2" />
+                Hướng tới thành công
+              </Badge>
+              <Badge className="bg-orange-500/20 text-orange-100 border-orange-400/30 px-4 py-2 hover:bg-orange-500/30 transition-colors">
+                <Zap className="h-4 w-4 mr-2" />
+                Tin tưởng bản thân
+              </Badge>
+            </div>
+          </div>
+
+          {/* Right Column - Exam Schedule Overview */}
+          <div className="lg:col-span-1">
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 h-fit sticky top-4">
+              <CardHeader>
+                <CardTitle className="text-white text-xl flex items-center gap-2">
+                  <BookOpen className="h-5 w-5" />
+                  Lịch thi tổng quan
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-3">
+                  {examSchedule.map((exam, index) => (
+                    <div 
+                      key={index} 
+                      className={`p-3 rounded-lg border transition-all duration-300 ${
+                        currentExam?.subject === exam.subject
+                          ? 'bg-blue-500/20 border-blue-400/50 ring-2 ring-blue-400/30' 
+                          : 'bg-white/5 border-white/20 hover:bg-white/10'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="text-xl">{exam.icon}</div>
+                          <div>
+                            <h3 className="text-white font-semibold">{exam.subject}</h3>
+                            <div className="flex flex-wrap gap-2 text-sm text-white/70">
+                              <span>{exam.date}</span>
+                              <span>•</span>
+                              <span>{exam.session}</span>
+                              <span>•</span>
+                              <span>{exam.time}</span>
+                              <span>•</span>
+                              <span>{exam.duration}</span>
+                            </div>
+                          </div>
+                        </div>
+                        {currentExam?.subject === exam.subject && (
+                          <Badge className="bg-blue-500/20 text-blue-100 border-blue-400/30">
+                            Đang đếm ngược
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
           </div>
-
-          {/* Countdown Timer */}
-          <div className="mb-8">
-            <h2 className="text-white/90 text-xl mb-6 font-medium">Thời gian còn lại</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-              <div className="bg-black/30 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">{timeLeft.days}</div>
-                <div className="text-white/80 uppercase tracking-wider text-sm font-medium">NGÀY</div>
-              </div>
-              <div className="bg-black/30 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">{timeLeft.hours}</div>
-                <div className="text-white/80 uppercase tracking-wider text-sm font-medium">GIỜ</div>
-              </div>
-              <div className="bg-black/30 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">{timeLeft.minutes}</div>
-                <div className="text-white/80 uppercase tracking-wider text-sm font-medium">PHÚT</div>
-              </div>
-              <div className="bg-black/30 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-black/40 transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">{timeLeft.seconds}</div>
-                <div className="text-white/80 uppercase tracking-wider text-sm font-medium">GIÂY</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Motivational Badges */}
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
-            <Badge className="bg-emerald-500/20 text-emerald-100 border-emerald-400/30 px-4 py-2 hover:bg-emerald-500/30 transition-colors">
-              <Star className="h-4 w-4 mr-2" />
-              Nỗ lực mỗi ngày
-            </Badge>
-            <Badge className="bg-blue-500/20 text-blue-100 border-blue-400/30 px-4 py-2 hover:bg-blue-500/30 transition-colors">
-              <Users className="h-4 w-4 mr-2" />
-              Đồng hành cùng nhau
-            </Badge>
-            <Badge className="bg-purple-500/20 text-purple-100 border-purple-400/30 px-4 py-2 hover:bg-purple-500/30 transition-colors">
-              <Target className="h-4 w-4 mr-2" />
-              Hướng tới thành công
-            </Badge>
-            <Badge className="bg-orange-500/20 text-orange-100 border-orange-400/30 px-4 py-2 hover:bg-orange-500/30 transition-colors">
-              <Zap className="h-4 w-4 mr-2" />
-              Tin tưởng bản thân
-            </Badge>
-            </div>
         </section>
 
-        {/* News Section - Now using the extracted component */}
-        <NewsSection articles={newsArticles} />
+        {/* News Section */}
+        <div className="max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
+          <NewsSection articles={newsArticles} />
+        </div>
 
         {/* Study Tips */}
-        <section>
+        <section className="max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
           <Card className="bg-white/10 backdrop-blur-md border-white/20">
             <CardHeader>
               <CardTitle className="text-white text-xl">Mẹo học tập hiệu quả</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
                 <div className="text-center p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
                   <div className="text-4xl mb-3">📚</div>
                   <h3 className="text-white font-semibold mb-2">Đọc hiểu sâu</h3>
