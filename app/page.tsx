@@ -73,7 +73,7 @@ const examSchedule = [
     subject: "Bài thi Tự chọn môn thứ hai",
     time: "08:35",
     duration: "50 phút",
-    datetime: new Date("2025-06-27T08:30:00"),
+    datetime: new Date("2025-06-27T08:35:00"),
     icon: "2️⃣"
   },
   {
