@@ -131,12 +131,12 @@ const examSchedule = [
     icon: "⚖️"
   },
   {
-    date: "28/6/2025",
+    date: "27/6/2025",
     session: "Chiều",
     subject: "Ngoại ngữ",
     time: "14:20",
     duration: "60 phút",
-    datetime: new Date("2025-06-28T14:20:00"),
+    datetime: new Date("2025-06-27T14:20:00"),
     icon: "🌐"
   }
 ]
