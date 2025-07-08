@@ -8,9 +8,9 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Đếm ngược thi THPT 2025 | Countdown to National Exam 2025",
-  description: "Trang web đếm ngược ngày thi tốt nghiệp THPT 2025",
-  keywords: "THPT 2025, thi tốt nghiệp, đếm ngược, học tập, thi cử, Việt Nam",
+  title: "Đếm ngược thi THPT 2026 | Countdown to National Exam 2026",
+  description: "Trang web đếm ngược ngày thi tốt nghiệp THPT 2026",
+  keywords: "THPT 2026, thi tốt nghiệp, đếm ngược, học tập, thi cử, Việt Nam",
 }
 
 export default function RootLayout({
