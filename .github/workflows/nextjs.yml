@@ -75,6 +75,8 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
+      - name: Copy Google verification file
+        run: cp google78553acdc85007b3.html ./out/google78553acdc85007b3.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
