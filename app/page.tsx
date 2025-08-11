@@ -46,10 +46,11 @@ const examSchedule = [
     subject: "Ngữ văn",
     time: "07:30",
     duration: "120 phút",
+    datetime: new Date("2026-06-11T07:30:00"),
     icon: "📝"
   },
   {
-    date: "26/6/2026",
+    date: "11/6/2026",
     session: "Chiều",
     subject: "Toán",
     time: "14:20",
