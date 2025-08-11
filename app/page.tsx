@@ -41,12 +41,11 @@ const motivationalQuotes = [
 // Exam schedule with individual timestamps
 const examSchedule = [
   {
-    date: "26/6/2026",
+    date: "11/6/2026",
     session: "Sáng",
     subject: "Ngữ văn",
     time: "07:30",
     duration: "120 phút",
-    datetime: new Date("2026-06-26T07:30:00"),
     icon: "📝"
   },
   {
@@ -55,25 +54,25 @@ const examSchedule = [
     subject: "Toán",
     time: "14:20",
     duration: "90 phút",
-    datetime: new Date("2026-06-26T14:20:00"),
+    datetime: new Date("2026-06-11T14:20:00"),
     icon: "🔢"
   },
   {
-    date: "27/6/2026",
+    date: "12/6/2026",
     session: "Sáng",
     subject: "Bài thi Tự chọn môn thứ nhất",
     time: "07:30",
     duration: "50 phút",
-    datetime: new Date("2026-06-27T07:30:00"),
+    datetime: new Date("2026-06-12T07:30:00"),
     icon: "1️⃣"
   },
   {
-    date: "27/6/2026",
+    date: "12/6/2026",
     session: "Sáng",
     subject: "Bài thi Tự chọn môn thứ hai",
     time: "08:35",
     duration: "50 phút",
-    datetime: new Date("2026-06-27T08:35:00"),
+    datetime: new Date("2026-06-12T08:35:00"),
     icon: "2️⃣"
   },
 ]
@@ -476,7 +475,14 @@ export default function THPT2025Countdown() {
               <CardHeader>
                 <CardTitle className="text-white text-xl flex items-center gap-2">
                   <BookOpen className="h-5 w-5" />
-                  Lịch thi tổng quan (Dự kiến)
+                  <Link
+                    href="https://www.facebook.com/share/p/1CoamCm1Vm/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-blue-300 transition-colors"
+                  >
+                    Lịch thi tổng quan (Dự kiến)
+                  </Link>
                 </CardTitle>
               </CardHeader>
               <CardContent>
