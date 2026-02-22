@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Moon, Sun, Calendar, Clock, Users, Quote, Share2, Heart, Star, Target, Zap, GithubIcon, BookOpen } from "lucide-react"
+import { Moon, Sun, Calendar, Clock, Users, Quote, Share2, Heart, Star, Target, Zap, GithubIcon, BookOpen, Filter } from "lucide-react"
 import { useTheme } from "next-themes"
 import { NewsSection, type NewsArticle } from "@/components/new-section"
 import { ThemeDialog, type ThemeOption, type BackgroundSettings } from "@/components/theme-dialog"
@@ -38,67 +38,298 @@ const motivationalQuotes = [
   },
 ]
 
-// Exam schedule with individual timestamps
-const examSchedule = [
+// Exam types and their schedules
+type ExamType = {
+  id: string
+  name: string
+  shortName: string
+  enabled: boolean
+  sessions: ExamSession[]
+}
+
+type ExamSession = {
+  id: string
+  date: string
+  subject: string
+  time: string
+  duration?: string
+  datetime: Date
+  icon: string
+  description?: string
+  locations?: string
+  enabled: boolean
+}
+
+const allExamTypes: ExamType[] = [
   {
-    date: "11/6/2026",
-    session: "Sáng",
-    subject: "Ngữ văn",
-    time: "07:30",
-    duration: "120 phút",
-    datetime: new Date("2026-06-11T07:30:00"),
-    icon: "📝"
+    id: "vact",
+    name: "Kỳ thi Đánh giá năng lực - ĐHQG TP.HCM",
+    shortName: "V-ACT",
+    enabled: true,
+    sessions: [
+      {
+        id: "vact-1",
+        date: "05/04/2026",
+        subject: "V-ACT Đợt 1",
+        time: "08:00",
+        duration: "150 phút",
+        datetime: new Date("2026-04-05T08:00:00"),
+        icon: "🎯",
+        description: "Đợt 1 - Đăng ký: 24/01/2026 – 23/02/2026",
+        enabled: true,
+      },
+      {
+        id: "vact-2",
+        date: "24/05/2026",
+        subject: "V-ACT Đợt 2",
+        time: "08:00",
+        duration: "150 phút",
+        datetime: new Date("2026-05-24T08:00:00"),
+        icon: "🎯",
+        description: "Đợt 2 - Đăng ký: 18/04/2026 – 25/04/2026",
+        enabled: true,
+      },
+    ],
   },
   {
-    date: "11/6/2026",
-    session: "Chiều",
-    subject: "Toán",
-    time: "14:20",
-    duration: "90 phút",
-    datetime: new Date("2026-06-11T14:20:00"),
-    icon: "🔢"
+    id: "tsa",
+    name: "Kỳ thi Đánh giá tư duy - ĐH Bách khoa Hà Nội",
+    shortName: "TSA",
+    enabled: true,
+    sessions: [
+      {
+        id: "tsa-1",
+        date: "14/03/2026",
+        subject: "TSA 2026 - Đợt 2 - Ngày 1",
+        time: "08:00",
+        duration: "150 phút",
+        datetime: new Date("2026-03-14T08:00:00"),
+        icon: "🧠",
+        enabled: true,
+      },
+      {
+        id: "tsa-2",
+        date: "15/03/2026",
+        subject: "TSA 2026 - Đợt 2 - Ngày 2",
+        time: "08:00",
+        duration: "150 phút",
+        datetime: new Date("2026-03-15T08:00:00"),
+        icon: "🧠",
+        enabled: true,
+      },
+    ],
   },
   {
-    date: "12/6/2026",
-    session: "Sáng",
-    subject: "Bài thi Tự chọn môn thứ nhất",
-    time: "07:30",
-    duration: "50 phút",
-    datetime: new Date("2026-06-12T07:30:00"),
-    icon: "1️⃣"
+    id: "hsa",
+    name: "Kỳ thi Đánh giá năng lực - ĐHQG Hà Nội",
+    shortName: "HSA",
+    enabled: true,
+    sessions: [
+      {
+        id: "hsa-601-1",
+        date: "07/03/2026",
+        subject: "HSA 601 - Ngày 1",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-03-07T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-601-2",
+        date: "08/03/2026",
+        subject: "HSA 601 - Ngày 2",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-03-08T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-602-1",
+        date: "21/03/2026",
+        subject: "HSA 602 - Ngày 1",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-03-21T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Hải Phòng, Thanh Hóa, Hà Tĩnh,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-602-2",
+        date: "22/03/2026",
+        subject: "HSA 602 - Ngày 2",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-03-22T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Hải Phòng, Thanh Hóa, Hà Tĩnh,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-603-1",
+        date: "04/04/2026",
+        subject: "HSA 603 - Ngày 1",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-04-04T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên, Hải Phòng, Hà Tĩnh,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-603-2",
+        date: "05/04/2026",
+        subject: "HSA 603 - Ngày 2",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-04-05T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên, Hải Phòng, Hà Tĩnh,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-604-1",
+        date: "18/04/2026",
+        subject: "HSA 604 - Ngày 1",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-04-18T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên, Thanh Hóa,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-604-2",
+        date: "19/04/2026",
+        subject: "HSA 604 - Ngày 2",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-04-19T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên, Thanh Hóa,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-605-1",
+        date: "09/05/2026",
+        subject: "HSA 605 - Ngày 1",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-05-09T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên, Hải Phòng,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-605-2",
+        date: "10/05/2026",
+        subject: "HSA 605 - Ngày 2",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-05-10T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên, Hải Phòng,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-606-1",
+        date: "23/05/2026",
+        subject: "HSA 606 - Ngày 1",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-05-23T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên, Hải Phòng,...",
+        enabled: true,
+      },
+      {
+        id: "hsa-606-2",
+        date: "24/05/2026",
+        subject: "HSA 606 - Ngày 2",
+        time: "08:00",
+        duration: "180 phút",
+        datetime: new Date("2026-05-24T08:00:00"),
+        icon: "📊",
+        locations: "Hà Nội, Hưng Yên, Ninh Bình, Thái Nguyên, Hải Phòng,...",
+        enabled: true,
+      },
+    ],
   },
   {
-    date: "12/6/2026",
-    session: "Sáng",
-    subject: "Bài thi Tự chọn môn thứ hai",
-    time: "08:35",
-    duration: "50 phút",
-    datetime: new Date("2026-06-12T08:35:00"),
-    icon: "2️⃣"
+    id: "thptqg",
+    name: "Kỳ thi tốt nghiệp THPT Quốc gia",
+    shortName: "THPTQG",
+    enabled: true,
+    sessions: [
+      {
+        id: "thptqg-1",
+        date: "11/6/2026",
+        subject: "Ngữ văn",
+        time: "07:30",
+        duration: "120 phút",
+        datetime: new Date("2026-06-11T07:30:00"),
+        icon: "📝",
+        enabled: true,
+      },
+      {
+        id: "thptqg-2",
+        date: "11/6/2026",
+        subject: "Toán",
+        time: "14:20",
+        duration: "90 phút",
+        datetime: new Date("2026-06-11T14:20:00"),
+        icon: "🔢",
+        enabled: true,
+      },
+      {
+        id: "thptqg-3",
+        date: "12/6/2026",
+        subject: "Bài thi Tự chọn môn thứ nhất",
+        time: "07:30",
+        duration: "50 phút",
+        datetime: new Date("2026-06-12T07:30:00"),
+        icon: "1️⃣",
+        enabled: true,
+      },
+      {
+        id: "thptqg-4",
+        date: "12/6/2026",
+        subject: "Bài thi Tự chọn môn thứ hai",
+        time: "08:35",
+        duration: "50 phút",
+        datetime: new Date("2026-06-12T08:35:00"),
+        icon: "2️⃣",
+        enabled: true,
+      },
+    ],
   },
 ]
 
 const newsArticles: NewsArticle[] = [
   {
     id: 1,
-    title: "Nỗ lực về đích trong Kỳ thi tốt nghiệp THPT 2025",
-    excerpt: "Kỳ thi tốt nghiệp THPT năm 2026 là dấu mốc quan trọng khi tiếp tục áp dụng Chương trình giáo dục phổ thông 2018, với nhiều đổi mới về cấu trúc đề thi, đặc biệt là tăng cường câu hỏi vận dụng thực tiễn nhằm phát huy năng lực tư duy và giải quyết vấn đề của học sinh. Trước yêu cầu cao hơn của kỳ thi, các trường học trên địa bàn tỉnh đã và đang tích cực đổi mới phương pháp ôn tập, tổ chức thi thử, phân loại học sinh theo năng lực, nhằm giúp các em làm bài hiệu quả và đạt kết quả tốt nhất.",
+    title: "Đại học Bách khoa Hà Nội công bố lịch thi đánh giá tư duy năm 2026",
+    excerpt: "Kỳ thi đánh giá tư duy của Đại học Bách khoa Hà Nội (TSA) năm 2026 dự kiến có ba đợt, sớm nhất vào cuối tháng 1.",
     category: "Thông tin kỳ thi",
-    date: "2025-06-12",
-    readTime: "15 phút đọc",
+    date: "2025-09-15",
+    readTime: "5 phút đọc",
     priority: "low",
-    articleUrl: "https://baophutho.vn/no-luc-ve-dich-trong-ky-thi-tot-nghiep-thpt-2026-234313.htm"
+    articleUrl: "https://vnexpress.net/lich-thi-danh-gia-tu-duy-dai-hoc-bach-khoa-ha-noi-tsa-nam-2026-chinh-xac-nhat-4939053.html"
   },
   {
     id: 2,
-    title: "LỊCH THI TỐT NGHIỆP THPT năm 2025",
-    excerpt: "Lịch thi tốt nghiệp THPT năm 2025 đã được Bộ Giáo dục và Đào tạo công bố, với nhiều điểm mới và thay đổi quan trọng. Theo quy định của Bộ GDĐT, Kỳ thi tốt nghiệp THPT năm 2026 được tổ chức vào các ngày 26, 27, 28/6.",
+    title: "Lịch thi THPT quốc gia 2026: diễn ra vào ngày 11/6-12/6/2026 (dự kiến)",
+    excerpt: "Lịch thi tốt nghiệp THPT năm 2026 đã được Bộ Giáo dục và Đào tạo công bố. Theo quy định của Bộ GDĐT, Kỳ thi tốt nghiệp THPT năm 2026 được tổ chức vào các ngày 11, 12/6/2026, với nhiều điểm mới và thay đổi quan trọng trong cấu trúc đề thi.",
     category: "Thông tin kỳ thi",
-    date: "2025-06-12",
-    readTime: "15 phút đọc",
+    date: "2026-02-22",
+    readTime: "8 phút đọc",
     priority: "high",
-    articleUrl: "https://xaydungchinhsach.chinhphu.vn/chi-tiet-lich-thi-tot-nghiep-thpt-nam-2026-119250324122530018.htm"
-  }
+    articleUrl: "https://thuvienphapluat.vn/hoi-dap-phap-luat/lich-thi-thpt-quoc-gia-2026-dien-ra-vao-ngay-1161262026-du-kien-dung-khong-138059892.html#:~:text=Nh%C6%B0%20v%E1%BA%ADy%2C%20l%E1%BB%8Bch%20thi%20THPT,ki%E1%BA%BFn)%20%C4%91%C3%BAng%20kh%C3%B4ng?%22."
+  },
 ]
 
 const themeOptions: ThemeOption[] = [
@@ -147,7 +378,7 @@ export default function THPT2025Countdown() {
     minutes: 0,
     seconds: 0,
   })
-  const [currentExam, setCurrentExam] = useState<typeof examSchedule[0] | null>(null)
+  const [currentExam, setCurrentExam] = useState<ExamSession | null>(null)
   const [currentQuote, setCurrentQuote] = useState(0)
   const [currentTheme, setCurrentTheme] = useState("elegant-green")
   const [customBackground, setCustomBackground] = useState("")
@@ -160,16 +391,78 @@ export default function THPT2025Countdown() {
   const [studyStreak, setStudyStreak] = useState(12)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [examTypes, setExamTypes] = useState<ExamType[]>(allExamTypes)
+  const [tempExamTypes, setTempExamTypes] = useState<ExamType[]>(allExamTypes)
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
 
-  // Function to get the next upcoming exam
-  const getNextExam = () => {
+  // Function to get the next upcoming exam from enabled sessions
+  const getNextExam = useCallback(() => {
     const now = new Date().getTime()
-    for (const exam of examSchedule) {
-      if (exam.datetime.getTime() > now) {
+    const allSessions: ExamSession[] = []
+
+    // Collect all enabled sessions from enabled exam types
+    examTypes.forEach(examType => {
+      if (examType.enabled) {
+        examType.sessions.forEach(session => {
+          if (session.enabled) {
+            allSessions.push(session)
+          }
+        })
+      }
+    })
+
+    // Sort by datetime
+    allSessions.sort((a, b) => {
+      const aTime = a.datetime instanceof Date ? a.datetime.getTime() : new Date(a.datetime).getTime()
+      const bTime = b.datetime instanceof Date ? b.datetime.getTime() : new Date(b.datetime).getTime()
+      return aTime - bTime
+    })
+
+    // Find the next exam
+    for (const exam of allSessions) {
+      const examTime = exam.datetime instanceof Date ? exam.datetime.getTime() : new Date(exam.datetime).getTime()
+      if (examTime > now) {
         return exam
       }
     }
     return null // All exams have passed
+  }, [examTypes])
+
+  // Toggle exam type in modal (temporary state)
+  const toggleExamType = (examTypeId: string) => {
+    const updatedExamTypes = tempExamTypes.map(et =>
+      et.id === examTypeId ? { ...et, enabled: !et.enabled } : et
+    )
+    setTempExamTypes(updatedExamTypes)
+  }
+
+  // Toggle individual exam session in modal (temporary state)
+  const toggleExamSession = (examTypeId: string, sessionId: string) => {
+    const updatedExamTypes = tempExamTypes.map(et => {
+      if (et.id === examTypeId) {
+        return {
+          ...et,
+          sessions: et.sessions.map(s =>
+            s.id === sessionId ? { ...s, enabled: !s.enabled } : s
+          )
+        }
+      }
+      return et
+    })
+    setTempExamTypes(updatedExamTypes)
+  }
+
+  // Save exam type preferences
+  const saveExamTypes = () => {
+    setExamTypes(tempExamTypes)
+    localStorage.setItem('exam-types-enabled', JSON.stringify(tempExamTypes))
+    setIsFilterModalOpen(false)
+  }
+
+  // Open modal and sync temp state
+  const openFilterModal = () => {
+    setTempExamTypes(examTypes)
+    setIsFilterModalOpen(true)
   }
 
   useEffect(() => {
@@ -179,6 +472,7 @@ export default function THPT2025Countdown() {
     const savedTheme = localStorage.getItem('thpt-countdown-theme')
     const savedBackground = localStorage.getItem('thpt-countdown-background')
     const savedSettings = localStorage.getItem('thpt-countdown-background-settings')
+    const savedExamTypes = localStorage.getItem('exam-types-enabled')
 
     if (savedTheme) {
       setCurrentTheme(savedTheme)
@@ -198,13 +492,43 @@ export default function THPT2025Countdown() {
       })
     }
 
+    if (savedExamTypes) {
+      try {
+        const parsed = JSON.parse(savedExamTypes)
+        // Reconstruct Date objects from stored strings
+        const reconstructed = parsed.map((examType: ExamType) => ({
+          ...examType,
+          sessions: examType.sessions.map(session => ({
+            ...session,
+            datetime: new Date(session.datetime)
+          }))
+        }))
+        setExamTypes(reconstructed)
+        setTempExamTypes(reconstructed)
+      } catch (e) {
+        console.error('Failed to parse saved exam types:', e)
+      }
+    } else {
+      // Default: Only enable THPTQG
+      const defaultExamTypes = allExamTypes.map(et => ({
+        ...et,
+        enabled: et.id === 'thptqg',
+        sessions: et.sessions.map(s => ({ ...s, enabled: et.id === 'thptqg' }))
+      }))
+      setExamTypes(defaultExamTypes)
+      setTempExamTypes(defaultExamTypes)
+    }
+  }, [])
+
+  useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date().getTime()
       const nextExam = getNextExam()
 
       if (nextExam) {
         setCurrentExam(nextExam)
-        const distance = nextExam.datetime.getTime() - now
+        const examTime = nextExam.datetime instanceof Date ? nextExam.datetime.getTime() : new Date(nextExam.datetime).getTime()
+        const distance = examTime - now
 
         if (distance > 0) {
           setTimeLeft({
@@ -224,7 +548,7 @@ export default function THPT2025Countdown() {
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [examTypes, getNextExam])
 
   useEffect(() => {
     const quoteTimer = setInterval(() => {
@@ -273,7 +597,9 @@ export default function THPT2025Countdown() {
 
   const shareCountdown = () => {
     if (navigator.share) {
-      const year = currentExam ? currentExam.datetime.getFullYear() : 2025
+      const year = currentExam
+        ? (currentExam.datetime instanceof Date ? currentExam.datetime : new Date(currentExam.datetime)).getFullYear()
+        : 2026
       const subject = currentExam ? currentExam.subject : "các môn thi"
       navigator.share({
         title: `Đếm ngược thi THPT ${year}`,
@@ -357,6 +683,15 @@ export default function THPT2025Countdown() {
             </div>
           </div>
           <div className="flex items-center space-x-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={openFilterModal}
+              className="text-white hover:bg-white/20"
+              title="Lọc kỳ thi"
+            >
+              <Filter className="h-4 w-4" />
+            </Button>
             <Button variant="ghost" size="icon" onClick={shareCountdown} className="text-white hover:bg-white/20">
               <Share2 className="h-4 w-4" />
             </Button>
@@ -476,43 +811,50 @@ export default function THPT2025Countdown() {
               <CardHeader>
                 <CardTitle className="text-white text-xl flex items-center gap-2">
                   <BookOpen className="h-5 w-5" />
-                  <Link
-                    href="https://www.facebook.com/share/p/1CoamCm1Vm/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-blue-300 transition-colors"
-                  >
-                    Lịch thi tổng quan (Dự kiến)
-                  </Link>
+                  Lịch thi tổng quan 2026
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-3">
-                  {examSchedule.map((exam, index) => (
+                  {examTypes.flatMap(examType =>
+                    examType.enabled ? examType.sessions.filter(s => s.enabled) : []
+                  ).sort((a, b) => {
+                    const aTime = a.datetime instanceof Date ? a.datetime.getTime() : new Date(a.datetime).getTime()
+                    const bTime = b.datetime instanceof Date ? b.datetime.getTime() : new Date(b.datetime).getTime()
+                    return aTime - bTime
+                  }).map((session) => (
                     <div
-                      key={index}
-                      className={`p-3 rounded-lg border transition-all duration-300 ${currentExam?.subject === exam.subject
-                        ? 'bg-blue-500/20 border-blue-400/50 ring-2 ring-blue-400/30'
-                        : 'bg-white/5 border-white/20 hover:bg-white/10'
+                      key={session.id}
+                      className={`p-3 rounded-lg border transition-all duration-300 ${currentExam?.id === session.id
+                          ? 'bg-blue-500/20 border-blue-400/50 ring-2 ring-blue-400/30'
+                          : 'bg-white/5 border-white/20 hover:bg-white/10'
                         }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="text-xl">{exam.icon}</div>
+                          <div className="text-xl">{session.icon}</div>
                           <div>
-                            <h3 className="text-white font-semibold">{exam.subject}</h3>
+                            <h3 className="text-white font-semibold">{session.subject}</h3>
                             <div className="flex flex-wrap gap-2 text-sm text-white/70">
-                              <span>{exam.date}</span>
+                              <span>{session.date}</span>
                               <span>•</span>
-                              <span>{exam.session}</span>
-                              <span>•</span>
-                              <span>{exam.time}</span>
-                              <span>•</span>
-                              <span>{exam.duration}</span>
+                              <span>{session.time}</span>
+                              {session.duration && (
+                                <>
+                                  <span>•</span>
+                                  <span>{session.duration}</span>
+                                </>
+                              )}
                             </div>
+                            {session.description && (
+                              <p className="text-xs text-white/60 mt-1">{session.description}</p>
+                            )}
+                            {session.locations && (
+                              <p className="text-xs text-white/50 mt-1">📍 {session.locations}</p>
+                            )}
                           </div>
                         </div>
-                        {currentExam?.subject === exam.subject && (
+                        {currentExam?.id === session.id && (
                           <Badge className="bg-blue-500/20 text-blue-100 border-blue-400/30">
                             Đang đếm ngược
                           </Badge>
@@ -559,6 +901,118 @@ export default function THPT2025Countdown() {
           </Card>
         </section>
       </main>
+
+      {/* Exam Filter Modal */}
+      {isFilterModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <Card className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-white/20 max-w-2xl w-full max-h-[80vh] overflow-auto">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-xl">Lọc kỳ thi</CardTitle>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsFilterModalOpen(false)}
+                className="h-8 w-8"
+              >
+                ✕
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {tempExamTypes.map((examType) => (
+                  <div key={examType.id} className="space-y-2">
+                    {/* Exam Type Header with Toggle */}
+                    <div className="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-800 rounded-lg border">
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          checked={examType.enabled}
+                          onChange={() => toggleExamType(examType.id)}
+                          className="w-5 h-5 rounded"
+                        />
+                        <div>
+                          <span className="font-semibold">{examType.shortName}</span>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{examType.name}</p>
+                        </div>
+                      </div>
+                      <Badge variant="outline">
+                        {examType.sessions.filter(s => s.enabled).length}/{examType.sessions.length}
+                      </Badge>
+                    </div>
+
+                    {/* Exam Sessions */}
+                    {examType.enabled && (
+                      <div className="space-y-1 ml-6">
+                        {examType.sessions.map((session) => (
+                          <div
+                            key={session.id}
+                            className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={session.enabled}
+                              onChange={() => toggleExamSession(examType.id, session.id)}
+                              className="w-4 h-4 rounded mt-1 flex-shrink-0"
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-start gap-2">
+                                <span className="text-lg flex-shrink-0">{session.icon}</span>
+                                <div className="flex-1">
+                                  <h3 className="font-medium text-sm">{session.subject}</h3>
+                                  <div className="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                    <span>{session.date}</span>
+                                    <span>•</span>
+                                    <span>{session.time}</span>
+                                    {session.duration && (
+                                      <>
+                                        <span>•</span>
+                                        <span>{session.duration}</span>
+                                      </>
+                                    )}
+                                  </div>
+                                  {session.description && (
+                                    <p className="text-xs text-gray-500 mt-1">{session.description}</p>
+                                  )}
+                                  {session.locations && (
+                                    <p className="text-xs text-gray-500 mt-1">📍 {session.locations}</p>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 flex justify-between gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const resetExamTypes = allExamTypes.map(et => ({
+                      ...et,
+                      enabled: et.id === 'thptqg',
+                      sessions: et.sessions.map(s => ({ ...s, enabled: et.id === 'thptqg' }))
+                    }))
+                    setTempExamTypes(resetExamTypes)
+                  }}
+                >
+                  Đặt lại mặc định
+                </Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={() => setIsFilterModalOpen(false)}>
+                    Hủy
+                  </Button>
+                  <Button onClick={saveExamTypes}>
+                    Lưu
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="relative z-10 bg-black/20 backdrop-blur-md border-t border-white/10 mt-12">

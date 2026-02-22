@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { BookOpen } from "lucide-react"
+import { BookOpen, RefreshCw } from "lucide-react"
 import Link from "next/link"
 
 // Types for news articles
@@ -23,13 +23,36 @@ interface NewsSectionProps {
 }
 
 export function NewsSection({ articles }: NewsSectionProps) {
+    // Check if news is too old (more than 14 days)
+    const isNewsOutdated = () => {
+        if (articles.length === 0) return false
+        
+        const today = new Date()
+        const mostRecentDate = new Date(
+            Math.max(...articles.map(article => new Date(article.date).getTime()))
+        )
+        
+        const daysDifference = Math.floor((today.getTime() - mostRecentDate.getTime()) / (1000 * 60 * 60 * 24))
+        return daysDifference > 14
+    }
+
+    const newsOutdated = isNewsOutdated()
+
     return (
         <Card className="bg-white/10 backdrop-blur-md border-white/20">
             <CardHeader>
-                <CardTitle className="text-white text-xl flex items-center gap-2">
-                    <BookOpen className="h-5 w-5" />
-                    Tin tức & Thông báo mới nhất
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                    <CardTitle className="text-white text-xl flex items-center gap-2">
+                        <BookOpen className="h-5 w-5" />
+                        Tin tức & Thông báo mới nhất
+                    </CardTitle>
+                    {newsOutdated && (
+                        <Badge className="bg-yellow-500/20 text-yellow-100 border-yellow-400/30 flex items-center gap-1 animate-pulse">
+                            <RefreshCw className="h-3 w-3" />
+                            Đang cập nhật
+                        </Badge>
+                    )}
+                </div>
             </CardHeader>
             <CardContent>
                 <div className="grid md:grid-cols-2 gap-6">
