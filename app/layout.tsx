@@ -1,16 +1,27 @@
 import type React from "react"
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import type { Metadata, Viewport } from "next"
+import { Plus_Jakarta_Sans } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { GoogleAnalytics } from '@next/third-parties/google'
 
-const inter = Inter({ subsets: ["latin"] })
+const font = Plus_Jakarta_Sans({ subsets: ["latin", "vietnamese"] })
 
 export const metadata: Metadata = {
-  title: "Đếm ngược thi THPT 2026 | Countdown to National Exam 2026",
-  description: "Trang web đếm ngược ngày thi tốt nghiệp THPT 2026",
-  keywords: "THPT 2026, thi tốt nghiệp, đếm ngược, học tập, thi cử, Việt Nam",
+  title: "Đếm ngược kì thi THPT 2027 | Countdown to National Exam 2027",
+  description: "Trang web đếm ngược ngày thi THPT và các kì thi khác. Theo dõi lịch thi, ôn tập hiệu quả và chuẩn bị tốt nhất cho kì thi quan trọng.",
+  keywords: "THPT 2027, thi tốt nghiệp, đếm ngược, học tập, thi cử, Việt Nam",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+  },
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 }
 
 export default function RootLayout({
@@ -20,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={font.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
