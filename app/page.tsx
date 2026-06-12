@@ -304,13 +304,19 @@ export default function THPTCountdown() {
 
   return (
     <div
-      className="min-h-[100dvh] relative overflow-hidden transition-all duration-700"
+      className="flex flex-col min-h-[100dvh] relative transition-all duration-700"
       data-page-mode={pageMode}
-      style={{ ...getBackgroundStyles(), ...accentVars }}
+      style={accentVars}
     >
+      {/* Fixed background to cover entire viewport including behind Safari bottom bar */}
+      <div
+        className="fixed inset-0 z-[-2] transition-all duration-700"
+        style={getBackgroundStyles()}
+      />
+
       {/* Subtle ambient glow */}
       {!customBackground && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl" style={{ background: `var(--pg-glow-1)` }} />
           <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl" style={{ background: `var(--pg-glow-2)` }} />
         </div>
@@ -365,7 +371,7 @@ export default function THPTCountdown() {
         </div>
       </header>
 
-      <main className="relative z-10 container mx-auto px-4 py-6 space-y-6 max-w-7xl">
+      <main className="flex-1 relative z-10 container mx-auto px-4 py-6 space-y-6 max-w-7xl w-full">
         {/* Two Column Layout */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column */}
@@ -682,7 +688,7 @@ export default function THPTCountdown() {
       )}
 
       {/* Footer */}
-      <footer className="relative z-10 backdrop-blur-md border-t mt-8" style={{ background: `var(--pg-header)`, borderColor: `var(--pg-border)` }}>
+      <footer className="relative z-10 backdrop-blur-md border-t mt-auto" style={{ background: `var(--pg-header)`, borderColor: `var(--pg-border)` }}>
         <div className="container mx-auto px-4 py-5 max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3">
             <p className="text-xs text-center md:text-left" style={{ color: `var(--pg-text-muted)` }}>
