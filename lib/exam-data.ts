@@ -31,13 +31,13 @@ export type ExamSession = {
 
 export const allExamTypes: ExamType[] = [
   {
-    id: "thptqg",
-    name: "Kỳ thi tốt nghiệp THPT Quốc gia",
-    shortName: "THPTQG",
+    id: "thpt",
+    name: "Kỳ thi tốt nghiệp THPT",
+    shortName: "THPT",
     enabled: true,
     sessions: [
       {
-        id: "thptqg-1",
+        id: "thpt-1",
         date: "11/6/2027",
         subject: "Ngữ văn",
         time: "07:30",
@@ -47,7 +47,7 @@ export const allExamTypes: ExamType[] = [
         enabled: true,
       },
       {
-        id: "thptqg-2",
+        id: "thpt-2",
         date: "11/6/2027",
         subject: "Toán",
         time: "14:20",
@@ -57,7 +57,7 @@ export const allExamTypes: ExamType[] = [
         enabled: true,
       },
       {
-        id: "thptqg-3",
+        id: "thpt-3",
         date: "12/6/2027",
         subject: "Bài thi Tự chọn môn thứ nhất",
         time: "07:30",
@@ -67,7 +67,7 @@ export const allExamTypes: ExamType[] = [
         enabled: true,
       },
       {
-        id: "thptqg-4",
+        id: "thpt-4",
         date: "12/6/2027",
         subject: "Bài thi Tự chọn môn thứ hai",
         time: "08:35",

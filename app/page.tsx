@@ -176,8 +176,8 @@ export default function THPTCountdown() {
     } else {
       const defaults = allExamTypes.map(et => ({
         ...et,
-        enabled: et.id === "thptqg",
-        sessions: et.sessions.map(s => ({ ...s, enabled: et.id === "thptqg" })),
+        enabled: et.id === "thpt",
+        sessions: et.sessions.map(s => ({ ...s, enabled: et.id === "thpt" })),
       }))
       setExamTypes(defaults)
       setTempExamTypes(defaults)
@@ -261,8 +261,8 @@ export default function THPTCountdown() {
         : EXAM_YEAR
       const subject = currentExam ? currentExam.subject : "cac mon thi"
       navigator.share({
-        title: `Dem nguoc thi THPT ${year}`,
-        text: `Con ${timeLeft.days} ngay nua la den ky thi ${subject}! Cung nhau co gang nhe! 💪`,
+        title: `Đếm ngược kỳ thi tốt nghiệp THPT ${year}`,
+        text: `Còn ${timeLeft.days} ngày nữa là đến ngày thi ${subject}! Hãy chuẩn bị thật tốt nhé!`,
         url: window.location.href,
       })
     }
@@ -331,7 +331,7 @@ export default function THPTCountdown() {
             </div>
             <div>
               <h1 className="text-lg font-bold tracking-tight" style={{ color: `var(--pg-text)` }}>
-                Đếm Ngược Ngày Thi THPT Quốc Gia {EXAM_YEAR}
+                Đếm Ngược Ngày Thi Tốt Nghiệp THPT {EXAM_YEAR}
               </h1>
               <p className="text-xs" style={{ color: `var(--pg-text-secondary)` }}>
                 Trang web đếm ngược ngày thi THPT {EXAM_YEAR}
@@ -664,8 +664,8 @@ export default function THPTCountdown() {
                   onClick={() => {
                     const reset = allExamTypes.map(et => ({
                       ...et,
-                      enabled: et.id === "thptqg",
-                      sessions: et.sessions.map(s => ({ ...s, enabled: et.id === "thptqg" })),
+                      enabled: et.id === "thpt",
+                      sessions: et.sessions.map(s => ({ ...s, enabled: et.id === "thpt" })),
                     }))
                     setTempExamTypes(reset)
                   }}
